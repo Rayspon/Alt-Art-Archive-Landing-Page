@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Helvetica", "Helvetica Neue", "Arial", sans-serif;
+  --color-premium-gold: #D4AF37;
+  --color-premium-crimson: #9B1B1B;
+  --color-obsidian: #09090B;
+}
+
+@layer base {
+  *, ::before, ::after {
+    font-family: var(--font-sans);
+  }
+  body {
+    @apply bg-obsidian text-zinc-100 antialiased overflow-x-hidden;
+  }
+  p {
+    @apply font-bold;
+  }
+}
+
+.liquid-glass {
+  @apply backdrop-blur-2xl bg-white/[0.03] border border-white/[0.1] shadow-[0_20px_50px_rgba(0,0,0,0.5)];
+  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.01) 50%, rgba(255,255,255,0.05) 100%);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.8),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.gold-glow {
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+::selection {
+  @apply bg-premium-gold/30 text-white;
+}
