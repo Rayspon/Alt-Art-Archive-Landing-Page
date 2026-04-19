@@ -7,7 +7,7 @@ import { useScroll, useSpring, useTransform } from 'motion/react';
 function CustomPokeBall() {
   const groupRef = useRef<THREE.Group>(null);
   // Prepend / to ensure it pulls from public root
-  const { scene } = useGLTF('/pokeball.glb');
+  const { scene } = useGLTF('pokeball.glb');
   
   const { scrollYProgress } = useScroll();
   
@@ -58,7 +58,7 @@ function CustomPokeBall() {
 }
 
 // Preload the model to prevent popping
-useGLTF.preload('/pokeball.glb');
+useGLTF.preload('pokeball.glb');
 
 export default function ThreeBackground() {
   return (
