@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, PerspectiveCamera, ContactShadows, Float, useGLTF, Center } from '@react-three/drei';
 import * as THREE from 'three';
 import { useScroll, useSpring, useTransform } from 'motion/react';
-import pokeballUrl from '/pokeball.glb';
+import pokeballUrl from '/public/pokeball.glb';
 
 function CustomPokeBall() {
   const groupRef = useRef<THREE.Group>(null);
@@ -60,7 +60,7 @@ function CustomPokeBall() {
 }
 
 // Preload the model to prevent popping
-useGLTF.preload('/pokeball.glb');
+useGLTF.preload('/public/pokeball.glb');
 
 const LoadingBall = () => (
   <mesh>
