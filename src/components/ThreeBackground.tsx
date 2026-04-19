@@ -60,7 +60,7 @@ function CustomPokeBall() {
 }
 
 // Preload the model to prevent popping
-useGLTF.preload('../public/pokeball.glb');
+useGLTF.preload(pokeballUrl);
 
 const LoadingBall = () => (
   <mesh>
