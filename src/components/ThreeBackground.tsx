@@ -95,7 +95,7 @@ export default function ThreeBackground() {
   }
 
   return (
-    <div className="fixed inset-0 -z-10 bg-[#040406]">
+    <div className="fixed inset-0 z-0 bg-[#040406]">
       <Canvas 
         shadows 
         dpr={[1, 2]} 

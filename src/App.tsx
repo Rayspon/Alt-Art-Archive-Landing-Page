@@ -52,29 +52,31 @@ export default function App() {
           <p>Failed to load Archive Intelligence. Please refresh.</p>
         </div>
       }>
-        <AnimatePresence mode="wait">
-        {currentPage === 'home' ? (
-          <motion.div
-            key="home"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Home onNavigate={handleNavigate} />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="events"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Events onBack={() => handleNavigate('home')} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <div className="relative z-10">
+          <AnimatePresence mode="wait">
+          {currentPage === 'home' ? (
+            <motion.div
+              key="home"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Home onNavigate={handleNavigate} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="events"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Events onBack={() => handleNavigate('home')} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+        </div>
       </ErrorBoundary>
     </div>
   );
