@@ -14,8 +14,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    // Smooth transition for page changes
-    window.history.pushState(null, '', `/${currentPage === 'home' ? '' : currentPage}`);
+    // Scroll to top on page change
   }, [currentPage]);
 
   return (
