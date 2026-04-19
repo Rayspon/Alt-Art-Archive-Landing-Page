@@ -106,30 +106,20 @@ export default function ThreeBackground() {
         }}
       >
         <Suspense fallback={<LoadingBall />}>
-          <ambientLight intensity={0.6} />
+          <ambientLight intensity={1.5} />
           
           {/* Main Key Lights */}
           <spotLight 
             position={[15, 20, 15]} 
             angle={0.2} 
             penumbra={1} 
-            intensity={1500} 
+            intensity={3000} 
             color="#FFFFFF"
             castShadow 
           />
-          <spotLight 
-            position={[-15, 10, 10]} 
-            angle={0.25} 
-            penumbra={1} 
-            intensity={800} 
-            color="#D4AF37" 
-          />
           
-          {/* Rim / Accent Lights */}
-          <pointLight position={[-10, 0, -5]} intensity={600} color="#9B1B1B" />
-          <pointLight position={[10, -5, 5]} intensity={400} color="#FFFFFF" />
-          <pointLight position={[0, -10, 5]} intensity={300} color="#D4AF37" />
-          
+          <gridHelper args={[20, 20, 0x444444, 0x444444]} position={[0, -2.5, 0]} />
+
           <CustomPokeBall />
           
           <ContactShadows 

@@ -14,7 +14,7 @@
     font-family: var(--font-sans);
   }
   body {
-    @apply text-zinc-100 antialiased overflow-x-hidden;
+    @apply text-zinc-100 antialiased overflow-x-hidden bg-[#040406];
   }
   p {
     @apply font-bold;
