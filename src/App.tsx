@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import ThreeBackground from './components/ThreeBackground.tsx';
-import Home from './pages/Home.tsx';
-import Events from './pages/Events.tsx';
+import ThreeBackground from './components/ThreeBackground';
+import Home from './pages/Home';
+import Events from './pages/Events';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
