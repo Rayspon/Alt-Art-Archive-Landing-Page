@@ -7,10 +7,18 @@ import { useScroll, useSpring, useTransform } from 'motion/react';
 function CustomPokeBall() {
   const groupRef = useRef<THREE.Group>(null);
   
-  // Construct absolute path using Vite's BASE_URL
-  const baseUrl = import.meta.env.BASE_URL.endsWith('/') 
-    ? import.meta.env.BASE_URL 
-    : `${import.meta.env.BASE_URL}/`;
+  // Construct absolute path using Vite's BASE_URL with safety fallbacks
+  const getBaseUrl = () => {
+    try {
+      const base = import.meta.env.BASE_URL;
+      if (!base) return '/';
+      return base.endsWith('/') ? base : `${base}/`;
+    } catch (e) {
+      return '/';
+    }
+  };
+  
+  const baseUrl = getBaseUrl();
   
   const { scene } = useGLTF(`${baseUrl}pokeball.glb`);
   
@@ -63,10 +71,16 @@ function CustomPokeBall() {
 }
 
 // Preload the model to prevent popping
-const preloadUrl = import.meta.env.BASE_URL.endsWith('/') 
-  ? `${import.meta.env.BASE_URL}pokeball.glb` 
-  : `${import.meta.env.BASE_URL}/pokeball.glb`;
-useGLTF.preload(preloadUrl);
+const getPreloadUrl = () => {
+  try {
+    const base = import.meta.env.BASE_URL;
+    const url = base?.endsWith('/') ? `${base}pokeball.glb` : `${base || ''}/pokeball.glb`;
+    return url;
+  } catch (e) {
+    return '/pokeball.glb';
+  }
+};
+useGLTF.preload(getPreloadUrl());
 
 const LoadingBall = () => (
   <mesh>

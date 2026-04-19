@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import ThreeBackground from './components/ThreeBackground';
 import Home from './pages/Home';
 import Events from './pages/Events';
+import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
@@ -15,8 +16,8 @@ export default function App() {
       setHasError(true);
     };
     const handleRejection = (e: PromiseRejectionEvent) => {
-      console.error('Captured unhandled promise rejection:', e.reason);
-      setHasError(true);
+      console.warn('Silent unhandled promise rejection:', e.reason);
+      // Non-fatal, we just log and continue
     };
     window.addEventListener('error', handleError);
     window.addEventListener('unhandledrejection', handleRejection);
@@ -53,9 +54,16 @@ export default function App() {
   return (
     <div className="relative min-h-screen">
       {/* 3D Static Background - stays always */}
-      <ThreeBackground />
+      <ErrorBoundary fallback={<div className="fixed inset-0 bg-[#040406] -z-10" />}>
+        <ThreeBackground />
+      </ErrorBoundary>
 
-      <AnimatePresence mode="wait">
+      <ErrorBoundary fallback={
+        <div className="min-h-screen bg-black flex items-center justify-center text-white">
+          <p>Failed to load Archive Intelligence. Please refresh.</p>
+        </div>
+      }>
+        <AnimatePresence mode="wait">
         {currentPage === 'home' ? (
           <motion.div
             key="home"
@@ -78,6 +86,7 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
+      </ErrorBoundary>
     </div>
   );
 }
