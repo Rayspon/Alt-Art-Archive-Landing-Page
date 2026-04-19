@@ -3,12 +3,13 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, PerspectiveCamera, ContactShadows, Float, useGLTF, Center } from '@react-three/drei';
 import * as THREE from 'three';
 import { useScroll, useSpring, useTransform } from 'motion/react';
+import pokeballUrl from '../assets/pokeball.glb';
 
 function CustomPokeBall() {
   const groupRef = useRef<THREE.Group>(null);
   
-  // Use simple relative path - Vite's build process will resolve this correctly
-  const { scene } = useGLTF('./pokeball.glb');
+  // Using imported asset URL - this works regardless of folder structure
+  const { scene } = useGLTF(pokeballUrl);
   
   const { scrollYProgress } = useScroll();
   
@@ -59,7 +60,7 @@ function CustomPokeBall() {
 }
 
 // Preload the model to prevent popping
-useGLTF.preload('./pokeball.glb');
+useGLTF.preload(pokeballUrl);
 
 const LoadingBall = () => (
   <mesh>
