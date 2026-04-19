@@ -47,7 +47,7 @@ const events: Event[] = [
 
 export default function Events({ onBack }: { onBack: () => void }) {
   return (
-    <div className="min-h-screen bg-zinc-950 pt-32 pb-24 px-6 relative z-10">
+    <div className="min-h-screen pt-32 pb-24 px-6 relative z-10">
       <div className="max-w-4xl mx-auto">
         <button 
           onClick={onBack}

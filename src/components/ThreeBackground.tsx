@@ -1,4 +1,4 @@
-import { useRef, Suspense } from 'react';
+import { useRef, Suspense, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, PerspectiveCamera, ContactShadows, Float, useGLTF, Center } from '@react-three/drei';
 import * as THREE from 'three';
@@ -6,8 +6,13 @@ import { useScroll, useSpring, useTransform } from 'motion/react';
 
 function CustomPokeBall() {
   const groupRef = useRef<THREE.Group>(null);
-  // Using absolute path so Vite can prefix with base correctly
-  const { scene } = useGLTF('/pokeball.glb');
+  
+  // Construct absolute path using Vite's BASE_URL
+  const baseUrl = import.meta.env.BASE_URL.endsWith('/') 
+    ? import.meta.env.BASE_URL 
+    : `${import.meta.env.BASE_URL}/`;
+  
+  const { scene } = useGLTF(`${baseUrl}pokeball.glb`);
   
   const { scrollYProgress } = useScroll();
   
@@ -58,7 +63,10 @@ function CustomPokeBall() {
 }
 
 // Preload the model to prevent popping
-useGLTF.preload('/pokeball.glb');
+const preloadUrl = import.meta.env.BASE_URL.endsWith('/') 
+  ? `${import.meta.env.BASE_URL}pokeball.glb` 
+  : `${import.meta.env.BASE_URL}/pokeball.glb`;
+useGLTF.preload(preloadUrl);
 
 const LoadingBall = () => (
   <mesh>
@@ -68,9 +76,41 @@ const LoadingBall = () => (
 );
 
 export default function ThreeBackground() {
+  const [glError, setGlError] = useState(false);
+
+  useEffect(() => {
+    // Basic WebGL check
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) {
+        console.warn('WebGL not supported');
+        setGlError(true);
+      }
+    } catch (e) {
+      setGlError(true);
+    }
+  }, []);
+
+  if (glError) {
+    return (
+      <div className="fixed inset-0 -z-10 bg-[#040406]">
+        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 -z-10 bg-[#040406]">
-      <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 7], fov: 35 }}>
+      <Canvas 
+        shadows 
+        dpr={[1, 2]} 
+        camera={{ position: [0, 0, 7], fov: 35 }}
+        onError={(err) => {
+          console.error('Three.js/Canvas error:', err);
+          setGlError(true);
+        }}
+      >
         <Suspense fallback={<LoadingBall />}>
           <ambientLight intensity={0.6} />
           
@@ -108,9 +148,9 @@ export default function ThreeBackground() {
           <Environment preset="city" /> {/* City provides better metallic reflections */}
         </Suspense>
       </Canvas>
-      {/* Cinematic Overlays */}
-      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-[#040406]/20 to-[#040406]" />
-      <div className="absolute inset-0 pointer-events-none backdrop-blur-[0.8px]" />
+      {/* Cinematic Overlays - Lightened to prevent obscuring the model */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-[#040406]/10 to-[#040406]/60" />
+      <div className="absolute inset-0 pointer-events-none backdrop-blur-[0.5px]" />
     </div>
   );
 }

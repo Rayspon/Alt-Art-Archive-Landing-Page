@@ -5,6 +5,8 @@
   --color-premium-gold: #D4AF37;
   --color-premium-crimson: #9B1B1B;
   --color-obsidian: #09090B;
+  --color-pokemon-yellow: #FFCB05;
+  --color-pokemon-red: #FF0000;
 }
 
 @layer base {
@@ -12,7 +14,7 @@
     font-family: var(--font-sans);
   }
   body {
-    @apply bg-obsidian text-zinc-100 antialiased overflow-x-hidden;
+    @apply text-zinc-100 antialiased overflow-x-hidden;
   }
   p {
     @apply font-bold;

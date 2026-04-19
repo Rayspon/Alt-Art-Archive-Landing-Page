@@ -153,7 +153,7 @@ export default function Home({ onNavigate }: { onNavigate: (page: string) => voi
       </Section>
 
       {/* Footer */}
-      <footer className="py-20 px-6 border-t border-white/5 relative z-10 bg-[#070708]">
+      <footer className="py-20 px-6 border-t border-white/5 relative z-10">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12">
           <div>
             <span className="text-3xl font-black tracking-tighter text-premium-gold">ALTART ARCHIVE</span>
