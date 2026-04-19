@@ -10,19 +10,23 @@
           const originalFetch = window.fetch;
           Object.defineProperty(window, 'fetch', {
             get: function() { return originalFetch; },
-            set: function() { /* Ignore attempts to overwrite native fetch to prevent TypeError */ },
+            set: function() { /* Prevent crash from assignment attempts */ },
             configurable: true,
             enumerable: true
           });
         } catch (e) {
-          // Failure to define property shouldn't block the app
+          console.warn('Fetch protection could not be applied', e);
         }
       })();
     </script>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root">
+      <div style="height: 100vh; background: #09090B; display: flex; align-items: center; justify-content: center; color: white; font-family: sans-serif;">
+        <p>Loading Alt Art Archive...</p>
+      </div>
+    </div>
+    <script type="module" src="./src/main.tsx"></script>
   </body>
 </html>
 

@@ -60,11 +60,18 @@ function CustomPokeBall() {
 // Preload the model to prevent popping
 useGLTF.preload('pokeball.glb');
 
+const LoadingBall = () => (
+  <mesh>
+    <sphereGeometry args={[0.5, 32, 32]} />
+    <meshStandardMaterial color="#D4AF37" wireframe transparent opacity={0.3} />
+  </mesh>
+);
+
 export default function ThreeBackground() {
   return (
     <div className="fixed inset-0 -z-10 bg-[#040406]">
       <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 7], fov: 35 }}>
-        <Suspense fallback={null}>
+        <Suspense fallback={<LoadingBall />}>
           <ambientLight intensity={0.6} />
           
           {/* Main Key Lights */}
