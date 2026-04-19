@@ -11,20 +11,9 @@ export default function App() {
 
   useEffect(() => {
     console.log('App component mounted');
-    const handleError = (e: ErrorEvent) => {
-      console.error('Captured runtime error:', e.error);
-      setHasError(true);
-    };
-    const handleRejection = (e: PromiseRejectionEvent) => {
-      console.warn('Silent unhandled promise rejection:', e.reason);
-      // Non-fatal, we just log and continue
-    };
-    window.addEventListener('error', handleError);
-    window.addEventListener('unhandledrejection', handleRejection);
-    return () => {
-      window.removeEventListener('error', handleError);
-      window.removeEventListener('unhandledrejection', handleRejection);
-    };
+    // We rely on ErrorBoundary components for targeted recovery
+    // rather than a global window listener which is too sensitive
+    // to search engine crawlers and browser extensions.
   }, []);
 
   // Handle navigation with scroll reset
