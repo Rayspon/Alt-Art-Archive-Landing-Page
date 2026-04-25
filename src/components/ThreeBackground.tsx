@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, PerspectiveCamera, ContactShadows, Float, useGLTF, Center } from '@react-three/drei';
 import * as THREE from 'three';
 import { useScroll, useSpring, useTransform } from 'motion/react';
-import pokeballUrl from '../assets/pokeball.glb';
+const pokeballUrl = '/pokeball.glb';
 
 function CustomPokeBall() {
   const groupRef = useRef<THREE.Group>(null);
