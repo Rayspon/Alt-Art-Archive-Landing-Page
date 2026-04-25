@@ -3,7 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, PerspectiveCamera, ContactShadows, Float, useGLTF, Center } from '@react-three/drei';
 import * as THREE from 'three';
 import { useScroll, useSpring, useTransform } from 'motion/react';
-const pokeballUrl = '/pokeball.glb';
+const pokeballUrl = new URL('../assets/pokeball.glb', import.meta.url).href;
 import ErrorBoundary from './ErrorBoundary';
 
 function CustomPokeBall() {
