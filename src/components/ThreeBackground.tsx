@@ -3,13 +3,16 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, PerspectiveCamera, ContactShadows, Float, useGLTF, Center } from '@react-three/drei';
 import * as THREE from 'three';
 import { useScroll, useSpring, useTransform } from 'motion/react';
-const pokeballUrl = '/pokeball.glb';
+import pokeballUrl from '../assets/pokeball.glb';
+import ErrorBoundary from './ErrorBoundary';
 
 function CustomPokeBall() {
   const groupRef = useRef<THREE.Group>(null);
   
-  // Using imported asset URL - this works regardless of folder structure
+  // Try to load the GLTF, this will throw a promise (Suspense) 
+  // or an Error (ErrorBoundary) if parsing fails.
   const { scene } = useGLTF(pokeballUrl);
+
   
   const { scrollYProgress } = useScroll();
   
@@ -70,40 +73,12 @@ const LoadingBall = () => (
 );
 
 export default function ThreeBackground() {
-  const [glError, setGlError] = useState(false);
-
-  useEffect(() => {
-    // Basic WebGL check
-    try {
-      const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-      if (!gl) {
-        console.warn('WebGL not supported');
-        setGlError(true);
-      }
-    } catch (e) {
-      setGlError(true);
-    }
-  }, []);
-
-  if (glError) {
-    return (
-      <div className="fixed inset-0 -z-10 bg-[#040406]">
-        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
-      </div>
-    );
-  }
-
   return (
     <div className="fixed inset-0 z-0 bg-[#040406]">
       <Canvas 
         shadows 
         dpr={[1, 2]} 
         camera={{ position: [0, 0, 7], fov: 35 }}
-        onError={(err) => {
-          console.error('Three.js/Canvas error:', err);
-          setGlError(true);
-        }}
       >
         <Suspense fallback={<LoadingBall />}>
           <ambientLight intensity={1.5} />
@@ -120,7 +95,9 @@ export default function ThreeBackground() {
           
           <gridHelper args={[20, 20, 0x444444, 0x444444]} position={[0, -2.5, 0]} />
 
-          <CustomPokeBall />
+          <ErrorBoundary fallback={<LoadingBall />}>
+            <CustomPokeBall />
+          </ErrorBoundary>
           
           <ContactShadows 
             position={[0, -2.5, 0]} 

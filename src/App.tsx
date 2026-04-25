@@ -43,7 +43,15 @@ export default function App() {
   return (
     <div className="relative min-h-screen">
       {/* 3D Static Background - stays always */}
-      <ErrorBoundary fallback={<div className="fixed inset-0 bg-[#040406] -z-10" />}>
+      <ErrorBoundary fallback={
+        <div className="fixed inset-0 bg-[#040406] -z-10 flex items-center justify-center p-10 z-50">
+           <div className="bg-red-900/50 p-6 rounded-lg border border-red-500 max-w-xl text-white">
+            <h2 className="text-xl font-bold mb-2">3D Scene Error Boundary</h2>
+            <p className="mb-4">The 3D background component crashed.</p>
+            <p className="text-sm opacity-70">If you are on Vercel, this usually means the .glb failed to load. Please show this screen so we know it crashed here.</p>
+           </div>
+        </div>
+      }>
         <ThreeBackground />
       </ErrorBoundary>
 
