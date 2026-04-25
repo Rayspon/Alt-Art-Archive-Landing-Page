@@ -3,15 +3,14 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, PerspectiveCamera, ContactShadows, Float, useGLTF, Center } from '@react-three/drei';
 import * as THREE from 'three';
 import { useScroll, useSpring, useTransform } from 'motion/react';
-import ErrorBoundary from './ErrorBoundary';
+const pokeballUrl = '/pokeball.glb';
 
 function CustomPokeBall() {
   const groupRef = useRef<THREE.Group>(null);
   
-  // Try to load the GLTF, this will throw a promise (Suspense) 
-  // or an Error (ErrorBoundary) if parsing fails.
-  const { scene } = useGLTF('/pokeball.glb');
-
+  // Using imported asset URL - this works regardless of folder structure
+  const { scene } = useGLTF(pokeballUrl);
+  
   const { scrollYProgress } = useScroll();
   
   // High-performance springs for smooth tracking - slightly snappier for better response
@@ -23,6 +22,7 @@ function CustomPokeBall() {
 
   // Map scroll to professional movements - Constant pace rotation, starting with button facing user
   const rotationY = useTransform(springValue, [0, 1], [Math.PI * 1.5, Math.PI * 7.5]);
+  
   const posX = useTransform(springValue, [0, 0.3, 0.7, 1], [0, 1.8, -1.8, 0]); 
   const posY = useTransform(springValue, [0, 0.5, 1], [0, -1, 0]);
   const scale = useTransform(springValue, [0, 0.5, 1], [0.8, 1.1, 0.9]); 
@@ -32,6 +32,7 @@ function CustomPokeBall() {
     if (groupRef.current) {
       // Rotation uses the constant mapping
       groupRef.current.rotation.y = rotationY.get();
+      
       groupRef.current.position.x = posX.get();
       groupRef.current.position.y = posY.get() + Math.sin(t * 0.3) * 0.08;
       groupRef.current.scale.setScalar(scale.get());
@@ -39,6 +40,7 @@ function CustomPokeBall() {
       groupRef.current.rotation.x = Math.sin(t * 0.2) * 0.05 + 0.12; 
       groupRef.current.rotation.z = Math.cos(t * 0.1) * 0.03;
 
+      // Mouse tracking for subtle parallax
       const mouseX = (state.mouse.x * state.viewport.width) / 15;
       const mouseY = (state.mouse.y * state.viewport.height) / 15;
       groupRef.current.position.x += mouseX * 0.02;
@@ -48,7 +50,7 @@ function CustomPokeBall() {
 
   return (
     <Float speed={1.2} rotationIntensity={0.3} floatIntensity={0.5}>
-      <group ref={groupRef} dispose={null}>
+      <group ref={groupRef}>
         <Center>
           <primitive object={scene} />
         </Center>
@@ -58,7 +60,7 @@ function CustomPokeBall() {
 }
 
 // Preload the model to prevent popping
-useGLTF.preload('/pokeball.glb');
+useGLTF.preload(pokeballUrl);
 
 const LoadingBall = () => (
   <mesh>
@@ -68,12 +70,40 @@ const LoadingBall = () => (
 );
 
 export default function ThreeBackground() {
+  const [glError, setGlError] = useState(false);
+
+  useEffect(() => {
+    // Basic WebGL check
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      if (!gl) {
+        console.warn('WebGL not supported');
+        setGlError(true);
+      }
+    } catch (e) {
+      setGlError(true);
+    }
+  }, []);
+
+  if (glError) {
+    return (
+      <div className="fixed inset-0 -z-10 bg-[#040406]">
+        <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 z-0 bg-[#040406]">
       <Canvas 
         shadows 
         dpr={[1, 2]} 
         camera={{ position: [0, 0, 7], fov: 35 }}
+        onError={(err) => {
+          console.error('Three.js/Canvas error:', err);
+          setGlError(true);
+        }}
       >
         <Suspense fallback={<LoadingBall />}>
           <ambientLight intensity={1.5} />
@@ -90,9 +120,7 @@ export default function ThreeBackground() {
           
           <gridHelper args={[20, 20, 0x444444, 0x444444]} position={[0, -2.5, 0]} />
 
-          <ErrorBoundary fallback={<LoadingBall />}>
-            <CustomPokeBall />
-          </ErrorBoundary>
+          <CustomPokeBall />
           
           <ContactShadows 
             position={[0, -2.5, 0]} 
