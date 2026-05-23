@@ -51,7 +51,7 @@ export default function Events({ onBack }: { onBack: () => void }) {
       <div className="max-w-4xl mx-auto">
         <button 
           onClick={onBack}
-          className="group flex items-center gap-2 text-zinc-400 hover:text-white transition-colors mb-12 uppercase text-xs font-bold tracking-[0.2em]"
+          className="group flex items-center gap-2 text-zinc-100 hover:text-white transition-colors mb-12 uppercase text-xs font-bold tracking-[0.2em]"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Terminal
         </button>
@@ -61,8 +61,8 @@ export default function Events({ onBack }: { onBack: () => void }) {
             Archive <br />
             <span className="text-premium-gold">Intelligence</span>
           </h1>
-          <p className="text-xl text-zinc-400 max-w-2xl leading-tight font-bold uppercase tracking-widest italic">
-            Deployment Log: Where the Archive meets the community. Join us at these upcoming exhibits across Scandinavia and the Baltics.
+          <p className="text-xl text-zinc-100 max-w-2xl leading-tight font-bold uppercase tracking-widest italic">
+            Deployment Log: Where the Archive meets the community. Join us at these upcoming exhibits across the Baltics.
           </p>
         </header>
 
@@ -86,8 +86,8 @@ export default function Events({ onBack }: { onBack: () => void }) {
                     </span>
                   </div>
                   <h3 className="text-3xl font-black text-white mb-3 uppercase tracking-tighter italic">{event.title}</h3>
-                  <p className="text-zinc-500 mb-6 font-bold leading-relaxed">{event.description}</p>
-                  <div className="flex items-center gap-2 text-zinc-300 font-black uppercase text-xs tracking-widest">
+                  <p className="text-zinc-200 mb-6 font-bold leading-relaxed">{event.description}</p>
+                  <div className="flex items-center gap-2 text-zinc-100 font-black uppercase text-xs tracking-widest">
                     <MapPin className="w-4 h-4 text-premium-crimson" />
                     {event.location}
                   </div>
@@ -98,7 +98,7 @@ export default function Events({ onBack }: { onBack: () => void }) {
                     {event.icon}
                   </div>
                   <div>
-                    <span className="text-[10px] text-zinc-600 font-bold uppercase block tracking-[0.3em] mb-1">Status</span>
+                    <span className="text-[10px] text-zinc-300 font-bold uppercase block tracking-[0.3em] mb-1">Status</span>
                     <span className="text-premium-gold text-sm font-black uppercase italic tracking-widest">{event.status}</span>
                   </div>
                 </div>
@@ -108,9 +108,9 @@ export default function Events({ onBack }: { onBack: () => void }) {
         </div>
 
         <div className="mt-20 p-12 rounded-[2rem] border border-dashed border-white/10 flex flex-col items-center justify-center text-center">
-          <MoveRight className="w-12 h-12 text-zinc-700 mb-6" />
-          <h2 className="text-2xl font-bold text-zinc-500 uppercase tracking-widest">More Events TBA</h2>
-          <p className="text-zinc-600 mt-2 max-w-xs">Connecting collectors, one show at a time. Follow my TikTok for live venue updates.</p>
+          <MoveRight className="w-12 h-12 text-zinc-400 mb-6" />
+          <h2 className="text-2xl font-bold text-zinc-200 uppercase tracking-widest">More Events TBA</h2>
+          <p className="text-zinc-300 mt-2 max-w-xs">Connecting collectors, one show at a time. Follow my TikTok for live venue updates.</p>
         </div>
       </div>
     </div>
