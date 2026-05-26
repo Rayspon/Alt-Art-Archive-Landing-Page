@@ -42,7 +42,7 @@ export default function App() {
     const resetTimer = () => {
       setIsSleeping(false);
       clearTimeout(sleepTimeoutId);
-      sleepTimeoutId = setTimeout(() => setIsSleeping(true), 5 * 60 * 1000); // 5 minutes
+      sleepTimeoutId = setTimeout(() => setIsSleeping(true), 5 * 60 * 1000); // 5 minutes!!!
     };
 
     resetTimer();
