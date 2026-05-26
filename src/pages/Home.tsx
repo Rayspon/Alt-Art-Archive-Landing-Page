@@ -1,22 +1,25 @@
 import { motion } from 'motion/react';
 import { ExternalLink, MessageCircle, Calendar as CalendarIcon, ArrowRight, Star, ShoppingBag, ShieldCheck } from 'lucide-react';
 
+import { UnownProvider, UnownText } from '../components/UnownProvider';
+
 const Section = ({ children, className }: { children: React.ReactNode; className?: string }) => (
   <motion.section
     initial={{ opacity: 0, y: 60 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ duration: 1.2, ease: [0.33, 1, 0.68, 1] }}
     viewport={{ once: false, amount: 0.2 }}
-    className={`min-h-screen flex items-center justify-center px-6 py-24 relative z-10 ${className}`}
+    className={`min-h-screen flex items-center justify-center px-4 md:px-6 py-20 md:py-24 relative z-10 ${className}`}
   >
-    <div className="liquid-glass p-10 md:p-20 rounded-[3rem] max-w-5xl w-full border border-white/5 shadow-2xl">
+    <div className="liquid-glass p-8 md:p-20 rounded-3xl md:rounded-[3rem] max-w-5xl w-full border border-white/5 shadow-2xl">
       {children}
     </div>
   </motion.section>
 );
 
-export default function Home({ onNavigate }: { onNavigate: (page: string) => void }) {
+export default function Home({ onNavigate, onUnown, isUnown = false }: { onNavigate: (page: string) => void, onUnown?: () => void, isUnown?: boolean }) {
   return (
+    <UnownProvider isUnown={isUnown}>
     <div className="relative">
       {/* Hero Section */}
       <section className="min-h-screen flex flex-col items-center justify-center text-center px-6 relative z-10">
@@ -33,16 +36,16 @@ export default function Home({ onNavigate }: { onNavigate: (page: string) => voi
             A vendor with some elite ball knowledge
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center w-full max-w-sm sm:max-w-none mx-auto">
             <button 
               onClick={() => onNavigate('shop')}
-              className="px-10 py-5 bg-white text-obsidian font-black rounded-sm transition-all flex items-center justify-center gap-3 group hover:bg-premium-gold shadow-[0_0_30px_rgba(212,175,55,0.2)] uppercase tracking-tighter"
+              className="w-full sm:w-auto px-6 py-4 md:px-10 md:py-5 bg-white text-obsidian font-black rounded-sm transition-all flex items-center justify-center gap-3 group hover:bg-premium-gold shadow-[0_0_30px_rgba(212,175,55,0.2)] uppercase tracking-tighter"
             >
               Start Shopping <ShoppingBag className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
             <button 
               onClick={() => onNavigate('contact')}
-              className="px-10 py-5 border border-white/20 hover:border-white text-white font-black rounded-sm transition-all flex items-center justify-center gap-3 group uppercase tracking-tighter"
+              className="w-full sm:w-auto px-6 py-4 md:px-10 md:py-5 border border-white/20 hover:border-white text-white font-black rounded-sm transition-all flex items-center justify-center gap-3 group uppercase tracking-tighter"
             >
               Contact <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
             </button>
@@ -159,9 +162,11 @@ export default function Home({ onNavigate }: { onNavigate: (page: string) => voi
             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">Reset View</button>
             <button onClick={() => onNavigate('events')} className="hover:text-white transition-colors">Intelligence / Events</button>
             <a href="https://www.tiktok.com/@altart_archive" target="_blank" className="hover:text-white transition-colors">Internal Comms</a>
+            <button onClick={() => onUnown?.()} className="hover:text-white transition-colors tracking-[0.2em] flex items-center justify-center -gap-1"><UnownText text="RUINS" enabled={true} /></button>
           </div>
         </div>
       </footer>
     </div>
+    </UnownProvider>
   );
 }

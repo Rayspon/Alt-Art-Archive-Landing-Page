@@ -9,9 +9,60 @@ import ErrorBoundary from './components/ErrorBoundary';
 export default function App() {
   const [currentPage, setCurrentPage] = useState('home');
   const [hasError, setHasError] = useState(false);
+  const [isCyberpunk, setIsCyberpunk] = useState(false);
+  const [isShiny, setIsShiny] = useState(false);
+  const [isUnown, setIsUnown] = useState(false);
+  const [isSleeping, setIsSleeping] = useState(false);
 
   useEffect(() => {
     console.log('App component mounted');
+    // Shiny encounter check (1/4096 chance)
+    if (Math.random() < 1 / 4096) {
+      setIsShiny(true);
+      console.log('✨ Shiny encounter triggered! ✨');
+    }
+
+    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    let konamiIndex = 0;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        if (konamiIndex === konamiCode.length) {
+          setIsCyberpunk(prev => !prev);
+          konamiIndex = 0;
+        }
+      } else {
+        konamiIndex = 0;
+      }
+    };
+
+    let sleepTimeoutId: ReturnType<typeof setTimeout>;
+    
+    const resetTimer = () => {
+      setIsSleeping(false);
+      clearTimeout(sleepTimeoutId);
+      sleepTimeoutId = setTimeout(() => setIsSleeping(true), 30000); // 30 seconds for testing
+    };
+
+    resetTimer();
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', resetTimer);
+    window.addEventListener('mousemove', resetTimer);
+    window.addEventListener('mousedown', resetTimer);
+    window.addEventListener('touchmove', resetTimer);
+    window.addEventListener('scroll', resetTimer);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keydown', resetTimer);
+      window.removeEventListener('mousemove', resetTimer);
+      window.removeEventListener('mousedown', resetTimer);
+      window.removeEventListener('touchmove', resetTimer);
+      window.removeEventListener('scroll', resetTimer);
+      clearTimeout(sleepTimeoutId);
+    };
   }, []);
 
   const handleNavigate = (page: string) => {
@@ -42,7 +93,7 @@ export default function App() {
   }
 
   return (
-    <div className="relative min-h-screen">
+    <div className={`relative min-h-screen ${isCyberpunk ? 'cyberpunk-mode' : ''} ${isShiny ? 'shiny-mode' : ''} ${isUnown ? 'unown-mode' : ''}`}>
       {/* 3D Static Background - stays always */}
       <ErrorBoundary fallback={<div className="fixed inset-0 bg-[#040406] -z-10" />}>
         <ThreeBackground />
@@ -82,7 +133,7 @@ export default function App() {
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <Home onNavigate={handleNavigate} />
+                  <Home onNavigate={handleNavigate} onUnown={() => { setIsUnown(true); handleNavigate('home'); }} isUnown={isUnown} />
                 </motion.div>
               )}
               {currentPage === 'events' && (
@@ -111,6 +162,57 @@ export default function App() {
           </div>
         </div>
       </ErrorBoundary>
+
+      {/* Jigglypuff Sleep Mode */}
+      <AnimatePresence>
+        {isSleeping && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 3 }}
+            className="fixed inset-0 z-[100] pointer-events-none overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-pink-500/20 backdrop-blur-[2px]" />
+            <audio src="https://www.myinstants.com/media/sounds/marimuzzle-jigglypuff.mp3" autoPlay loop className="hidden" />
+            <motion.img
+              src="https://archives.bulbagarden.net/media/upload/thumb/3/3a/0039Jigglypuff.png/800px-0039Jigglypuff.png"
+              alt="Jigglypuff"
+              initial={{ y: '100%', opacity: 0, x: '-50%' }}
+              animate={{ y: 0, opacity: 1, x: '-50%' }}
+              transition={{ duration: 2, ease: "easeOut" }}
+              className="absolute bottom-0 left-1/2 w-48 md:w-64 drop-shadow-[0_0_20px_rgba(255,105,180,0.5)] z-10 origin-bottom"
+              style={{ objectFit: 'contain' }}
+            />
+            {[...Array(15)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute text-white font-mono font-bold drop-shadow-[0_0_8px_rgba(255,192,203,0.8)]"
+                initial={{ 
+                  opacity: 0, 
+                  y: '100vh', 
+                  x: `${Math.random() * 100}vw`,
+                  scale: 0.5 
+                }}
+                animate={{ 
+                  opacity: [0, 0.8, 0], 
+                  y: '-10vh',
+                  x: `calc(${Math.random() * 100}vw + ${Math.random() * 200 - 100}px)`,
+                  scale: 1.5 + Math.random()
+                }}
+                transition={{
+                  duration: 5 + Math.random() * 5,
+                  repeat: Infinity,
+                  delay: Math.random() * 5,
+                  ease: "easeInOut"
+                }}
+              >
+                Zzz
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -73,9 +73,9 @@ export default function Events({ onBack }: { onBack: () => void }) {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className="liquid-glass p-10 group border-white/[0.05] hover:border-premium-gold/30 transition-all cursor-default"
+              className="liquid-glass p-6 md:p-10 group border-white/[0.05] hover:border-premium-gold/30 transition-all cursor-default"
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-8">
                 <div className="flex-1">
                   <div className="flex items-center gap-4 mb-4">
                     <span className="px-3 py-1 bg-white text-obsidian text-[10px] font-black uppercase tracking-[0.2em]">
@@ -85,15 +85,15 @@ export default function Events({ onBack }: { onBack: () => void }) {
                       <CalendarIcon className="w-4 h-4" /> {event.date}
                     </span>
                   </div>
-                  <h3 className="text-3xl font-black text-white mb-3 uppercase tracking-tighter italic">{event.title}</h3>
+                  <h3 className="text-2xl md:text-3xl font-black text-white mb-3 uppercase tracking-tighter italic">{event.title}</h3>
                   <p className="text-zinc-200 mb-6 font-bold leading-relaxed">{event.description}</p>
                   <div className="flex items-center gap-2 text-zinc-100 font-black uppercase text-xs tracking-widest">
-                    <MapPin className="w-4 h-4 text-premium-crimson" />
+                    <MapPin className="w-4 h-4 text-premium-crimson shrink-0" />
                     {event.location}
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-6 bg-white/[0.03] p-8 border border-white/5">
+                <div className="flex items-center gap-4 md:gap-6 bg-white/[0.03] p-6 md:p-8 border border-white/5 rounded-xl md:rounded-none">
                   <div className="p-4 bg-premium-gold/10 rounded-sm">
                     {event.icon}
                   </div>
@@ -107,7 +107,7 @@ export default function Events({ onBack }: { onBack: () => void }) {
           ))}
         </div>
 
-        <div className="mt-20 p-12 rounded-[2rem] border border-dashed border-white/10 flex flex-col items-center justify-center text-center">
+        <div className="mt-16 md:mt-20 p-8 md:p-12 rounded-[2rem] border border-dashed border-white/10 flex flex-col items-center justify-center text-center">
           <MoveRight className="w-12 h-12 text-zinc-400 mb-6" />
           <h2 className="text-2xl font-bold text-zinc-200 uppercase tracking-widest">More Events TBA</h2>
           <p className="text-zinc-300 mt-2 max-w-xs">Connecting collectors, one show at a time. Follow my TikTok for live venue updates.</p>

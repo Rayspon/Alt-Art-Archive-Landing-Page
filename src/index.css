@@ -1,3 +1,4 @@
+@import url('https://fonts.cdnfonts.com/css/pokemon-unown');
 @import "tailwindcss";
 
 @theme {
@@ -35,4 +36,86 @@
 
 ::selection {
   @apply bg-premium-gold/30 text-white;
+}
+
+/* Shiny Easter Egg */
+.shiny-mode {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+.shiny-mode canvas {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Cyberpunk Easter Egg Styles */
+.cyberpunk-mode {
+  --color-premium-gold: #00ffcc;
+  --color-premium-crimson: #ff00ff;
+  --font-sans: "JetBrains Mono", "Courier New", monospace;
+  font-family: var(--font-sans) !important;
+}
+
+.cyberpunk-mode h1, .cyberpunk-mode h2, .cyberpunk-mode h3, .cyberpunk-mode span, .cyberpunk-mode p, .cyberpunk-mode button {
+  text-shadow: 0 0 4px rgba(0, 255, 204, 0.4);
+}
+
+.cyberpunk-mode .liquid-glass {
+  background: rgba(10, 5, 20, 0.8) !important;
+  border: 1px solid #ff00ff !important;
+  box-shadow: 0 0 20px rgba(255, 0, 255, 0.3), inset 0 0 15px rgba(0, 255, 204, 0.2) !important;
+}
+
+.cyberpunk-mode img {
+  filter: hue-rotate(90deg) saturate(2.5) contrast(1.2) brightness(1.2) !important;
+  mix-blend-mode: screen;
+}
+
+.cyberpunk-mode svg, .cyberpunk-mode lucide-react {
+  filter: drop-shadow(0 0 8px #ff00ff);
+}
+
+.cyberpunk-mode::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: 
+    linear-gradient(rgba(0, 255, 204, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 204, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+
+.cyberpunk-mode::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Unown Easter Egg */
+.unown-mode {
+}
+
+.unown-mode h1, .unown-mode h2, .unown-mode h3, .unown-mode p, .unown-mode span, .unown-mode div, .unown-mode button, .unown-mode a {
+  letter-spacing: 0.1em;
+}
+
+.unown-font {
+  font-family: 'Pokemon Unown', sans-serif !important;
 }

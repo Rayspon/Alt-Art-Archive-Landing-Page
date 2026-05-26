@@ -4,6 +4,7 @@ import { ArrowLeft, Instagram, Mail, ShoppingBag, Video, Check } from 'lucide-re
 
 export default function Contact({ onBack }: { onBack: () => void }) {
   const [copied, setCopied] = useState(false);
+  const [isHoldingPhoto, setIsHoldingPhoto] = useState(false);
 
   const handleEmailClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -42,11 +43,19 @@ export default function Contact({ onBack }: { onBack: () => void }) {
           >
             <div className="liquid-glass rounded-[2rem] p-4 border border-white/10 relative group">
               <div className="absolute inset-0 bg-premium-gold/5 opacity-0 group-hover:opacity-100 transition-opacity rounded-[2rem]" />
-              <div className="w-full aspect-[4/5] rounded-xl overflow-hidden">
+              <div 
+                className="w-full aspect-[4/5] rounded-xl overflow-hidden cursor-pointer select-none"
+                onMouseDown={() => setIsHoldingPhoto(true)}
+                onMouseUp={() => setIsHoldingPhoto(false)}
+                onMouseLeave={() => setIsHoldingPhoto(false)}
+                onTouchStart={() => setIsHoldingPhoto(true)}
+                onTouchEnd={() => setIsHoldingPhoto(false)}
+              >
                 <img 
-                  src="/contact-profile.jpg.png" 
+                  src={isHoldingPhoto ? "https://upload.wikimedia.org/wikipedia/commons/3/3b/MissingNo.svg" : "/contact-profile.jpg.png"} 
                   alt="Alt Art Archive Founder" 
-                  className="w-full h-full object-cover scale-[1.3] translate-y-[12%] filter grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700"
+                  className={`w-full h-full transition-all duration-700 ${isHoldingPhoto ? 'object-contain scale-[0.9] translate-y-0 filter-none [image-rendering:pixelated]' : 'object-cover scale-[1.3] translate-y-[12%] filter grayscale contrast-125 group-hover:grayscale-0'}`}
+                  draggable="false"
                 />
               </div>
               <div className="p-6">
