@@ -94,7 +94,7 @@ export default function Home({ onNavigate }: { onNavigate: (page: string) => voi
         </div>
         <p className="text-xl md:text-2xl text-zinc-100 leading-tight mb-12 font-bold">
           Alt Art Archive™ has a vast selection of <span className="text-premium-crimson italic">Ultra-Modern SIRs</span>. 
-          You'll never see a bad card at our table. All the cards are 100% authentic, confirmed by professionals with years of experience. 
+          You'll never see a bad card at our table. All the cards are authentic, confirmed by a professional with years of experience. 
         </p>
         <div className="space-y-6">
           <div className="inline-block py-2 border-b border-white/10 ml-auto">
