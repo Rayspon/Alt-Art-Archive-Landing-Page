@@ -34,22 +34,18 @@ export default function Home({ onNavigate }: { onNavigate: (page: string) => voi
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <a 
-              href="https://www.cardmarket.com/en/Pokemon/Users/PokeMonitor" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            <button 
+              onClick={() => onNavigate('shop')}
               className="px-10 py-5 bg-white text-obsidian font-black rounded-sm transition-all flex items-center justify-center gap-3 group hover:bg-premium-gold shadow-[0_0_30px_rgba(212,175,55,0.2)] uppercase tracking-tighter"
             >
               Start Shopping <ShoppingBag className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a 
-              href="https://www.tiktok.com/@altart_archive" 
-              target="_blank" 
-              rel="noopener noreferrer"
+            </button>
+            <button 
+              onClick={() => onNavigate('contact')}
               className="px-10 py-5 border border-white/20 hover:border-white text-white font-black rounded-sm transition-all flex items-center justify-center gap-3 group uppercase tracking-tighter"
             >
               Contact <MessageCircle className="w-5 h-5 group-hover:scale-110 transition-transform" />
-            </a>
+            </button>
           </div>
         </motion.div>
         

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import ThreeBackground from './components/ThreeBackground';
 import Home from './pages/Home';
 import Events from './pages/Events';
+import Contact from './pages/Contact';
 import ErrorBoundary from './components/ErrorBoundary';
 
 export default function App() {
@@ -11,13 +12,13 @@ export default function App() {
 
   useEffect(() => {
     console.log('App component mounted');
-    // We rely on ErrorBoundary components for targeted recovery
-    // rather than a global window listener which is too sensitive
-    // to search engine crawlers and browser extensions.
   }, []);
 
-  // Handle navigation with scroll reset
   const handleNavigate = (page: string) => {
+    if (page === 'shop') {
+      window.open('https://www.cardmarket.com/en/Pokemon/Users/PokeMonitor', '_blank');
+      return;
+    }
     console.log('Navigating to:', page);
     setCurrentPage(page);
     window.scrollTo({ top: 0 });
@@ -52,30 +53,62 @@ export default function App() {
           <p>Failed to load Archive Intelligence. Please refresh.</p>
         </div>
       }>
-        <div className="relative z-10">
-          <AnimatePresence mode="wait">
-          {currentPage === 'home' ? (
-            <motion.div
-              key="home"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
+        <div className="relative z-10 font-sans">
+          {/* Top Navigation */}
+          <nav className="fixed top-0 left-0 right-0 z-50 px-6 pt-6 pb-20 flex justify-between items-center bg-gradient-to-b from-black via-black/50 to-transparent pointer-events-none" style={{ maskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 40%, transparent 100%)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
+            {/* Home Button */}
+            <button 
+              onClick={() => handleNavigate('home')} 
+              className="hover:opacity-80 transition-opacity pointer-events-auto shrink-0"
+              aria-label="Home"
             >
-              <Home onNavigate={handleNavigate} />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="events"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Events onBack={() => handleNavigate('home')} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <img src="/logo.png" alt="Home Logo" className="w-10 h-10 md:w-16 md:h-16 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" />
+            </button>
+
+            <div className="flex gap-6 md:gap-10 text-xs md:text-sm font-bold uppercase tracking-[0.2em] text-zinc-300 pointer-events-auto">
+              <button onClick={() => handleNavigate('shop')} className="hover:text-premium-gold transition-colors">Shop</button>
+              <button onClick={() => handleNavigate('events')} className={`hover:text-premium-gold transition-colors ${currentPage === 'events' ? 'text-premium-gold' : ''}`}>Events</button>
+              <button onClick={() => handleNavigate('contact')} className={`hover:text-premium-gold transition-colors ${currentPage === 'contact' ? 'text-premium-gold' : ''}`}>Contact</button>
+            </div>
+          </nav>
+
+          <div className="pt-24"> {/* Padding for Fixed Nav */}
+            <AnimatePresence mode="wait">
+              {currentPage === 'home' && (
+                <motion.div
+                  key="home"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Home onNavigate={handleNavigate} />
+                </motion.div>
+              )}
+              {currentPage === 'events' && (
+                <motion.div
+                  key="events"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Events onBack={() => handleNavigate('home')} />
+                </motion.div>
+              )}
+              {currentPage === 'contact' && (
+                <motion.div
+                  key="contact"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Contact onBack={() => handleNavigate('home')} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </ErrorBoundary>
     </div>
