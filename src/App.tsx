@@ -42,7 +42,11 @@ export default function App() {
     const resetTimer = () => {
       setIsSleeping(false);
       clearTimeout(sleepTimeoutId);
-      sleepTimeoutId = setTimeout(() => setIsSleeping(true), 5 * 60 * 1000); // 5 minutes!!!
+      console.log("Activity detected. Jigglypuff sleep timer reset to 5 minutes.");
+      sleepTimeoutId = setTimeout(() => {
+        console.log("Inactivity detected for 5 minutes! Jigglypuff is singing...");
+        setIsSleeping(true);
+      }, 5 * 60 * 1000); // 5 minutes!!!
     };
 
     resetTimer();
@@ -67,7 +71,7 @@ export default function App() {
 
   const handleNavigate = (page: string) => {
     if (page === 'shop') {
-      window.open('https://www.cardmarket.com/en/Pokemon/Users/PokeMonitor', '_blank');
+      window.open('https://www.cardmarket.com/en/Pokemon/Users/altartarchive', '_blank');
       return;
     }
     console.log('Navigating to:', page);

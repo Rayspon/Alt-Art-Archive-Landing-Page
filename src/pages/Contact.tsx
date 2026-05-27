@@ -102,7 +102,7 @@ export default function Contact({ onBack }: { onBack: () => void }) {
             </a>
 
             <a 
-              href="https://www.cardmarket.com/en/Pokemon/Users/PokeMonitor" 
+              href="https://www.cardmarket.com/en/Pokemon/Users/altartarchive" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center gap-6 p-8 liquid-glass rounded-2xl border border-white/5 hover:border-premium-gold/50 group transition-all"

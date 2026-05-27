@@ -139,7 +139,7 @@ export default function Home({ onNavigate, onUnown, isUnown = false }: { onNavig
           </button>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <a href="https://www.cardmarket.com/en/Pokemon/Users/PokeMonitor" target="_blank" className="bg-white p-10 group hover:opacity-90 transition-all">
+            <a href="https://www.cardmarket.com/en/Pokemon/Users/altartarchive" target="_blank" className="bg-white p-10 group hover:opacity-90 transition-all">
               <span className="text-obsidian text-2xl font-black uppercase italic">Marketplace</span>
               <ArrowRight className="text-obsidian mt-4 group-hover:translate-x-2 transition-transform" />
             </a>
