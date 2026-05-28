@@ -69,7 +69,7 @@ export default function Home({ onNavigate, onUnown, isUnown = false }: { onNavig
           <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-premium-gold">The Beginning</h2>
         </div>
         <p className="text-xl md:text-2xl text-zinc-100 leading-tight mb-12 font-bold">
-          Straight from the digital heart of <span className="text-premium-gold">Estonia</span>, 
+          Straight from <span className="text-premium-gold">Estonia</span>, 
           I am an up-and-coming Pokemon vendor, who aims to deliver the TCG hobby to all, investor or collector. What began as an early childhood obsession 
           has evolved into an international business.
         </p>

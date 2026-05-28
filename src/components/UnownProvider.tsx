@@ -41,7 +41,7 @@ export function unownify(children: React.ReactNode): React.ReactNode {
     }
     if (React.isValidElement(child)) {
       if (typeof child.type === 'string') {
-        const props = { ...child.props };
+        const props = { ...(child.props as any) };
         if (props.children) {
           props.children = unownify(props.children);
         }
@@ -49,7 +49,7 @@ export function unownify(children: React.ReactNode): React.ReactNode {
       }
       // If it's a Framer Motion component, do the same
       if (typeof child.type === 'object' || typeof child.type === 'function') {
-        const props = { ...child.props };
+        const props = { ...(child.props as any) };
         if (props.children) {
           props.children = unownify(props.children);
         }
