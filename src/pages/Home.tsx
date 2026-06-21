@@ -165,6 +165,12 @@ export default function Home({ onNavigate, onUnown, isUnown = false }: { onNavig
             <button onClick={() => onUnown?.()} className="hover:text-white transition-colors tracking-[0.2em] flex items-center justify-center -gap-1"><UnownText text="RUINS" enabled={true} /></button>
           </div>
         </div>
+        <div className="max-w-7xl mx-auto mt-16 pt-8 border-t border-white/10 text-zinc-500 text-[10px] sm:text-xs">
+          <p className="max-w-3xl leading-relaxed">
+            Pokémon, Pokéball, and all related characters and designs are registered trademarks of Nintendo, Creatures Inc., and GAME FREAK inc. 
+            Alt Art Archive is an independent entity and is not affiliated with, endorsed by, or sponsored by Nintendo or The Pokémon Company in any way.
+          </p>
+        </div>
       </footer>
     </div>
     </UnownProvider>
