@@ -10,6 +10,7 @@ interface Event {
   icon: React.ReactNode;
   type: 'Tournament' | 'Trade Night' | 'Convention';
   status: string;
+  link?: string;
 }
 
 const events: Event[] = [
@@ -26,12 +27,13 @@ const events: Event[] = [
   {
     id: 2,
     title: "FINLAND CARD EXPO MEGA Tampereen Messukeskus Lauantai",
-    date: "June 26th, 2026",
+    date: "June 27th, 2026",
     location: "Tampere, Finland",
     description: "The legendary Tampere Exhibition and Sports Centre. The 3,600 square meter D-hall is filled with the trading card craze at the end of June!",
     icon: <Users className="w-5 h-5 text-pokemon-red" />,
     type: 'Convention',
-    status: 'Confirmed Deployment'
+    status: 'Confirmed Deployment',
+    link: 'https://www.finlandcardexpo.fi/tampereen-messukeskus'
   },
   {
     id: 3,
@@ -93,14 +95,26 @@ export default function Events({ onBack }: { onBack: () => void }) {
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-4 md:gap-6 bg-white/[0.03] p-6 md:p-8 border border-white/5 rounded-xl md:rounded-none">
-                  <div className="p-4 bg-premium-gold/10 rounded-sm">
-                    {event.icon}
+                <div className="flex flex-col gap-4 md:gap-6 bg-white/[0.03] p-6 md:p-8 border border-white/5 rounded-xl md:rounded-none">
+                  <div className="flex items-center gap-4">
+                    <div className="p-4 bg-premium-gold/10 rounded-sm">
+                      {event.icon}
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-zinc-300 font-bold uppercase block tracking-[0.3em] mb-1">Status</span>
+                      <span className="text-premium-gold text-sm font-black uppercase italic tracking-widest">{event.status}</span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-[10px] text-zinc-300 font-bold uppercase block tracking-[0.3em] mb-1">Status</span>
-                    <span className="text-premium-gold text-sm font-black uppercase italic tracking-widest">{event.status}</span>
-                  </div>
+                  {event.link && (
+                    <a
+                      href={event.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full py-3 px-4 bg-white text-obsidian text-xs font-black uppercase tracking-[0.2em] hover:bg-premium-gold transition-colors"
+                    >
+                      Explore Details <MoveRight className="w-4 h-4" />
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>
