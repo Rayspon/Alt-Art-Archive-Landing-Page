@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { ArrowLeft, Instagram, Mail, ShoppingBag, Video, Check } from 'lucide-react';
+import { ArrowLeft, Instagram, Mail, ShoppingBag, Video, Check, Youtube } from 'lucide-react';
 
 export default function Contact({ onBack }: { onBack: () => void }) {
   const [copied, setCopied] = useState(false);
@@ -83,6 +83,21 @@ export default function Contact({ onBack }: { onBack: () => void }) {
               <div>
                 <span className="text-[10px] text-zinc-300 font-bold uppercase block tracking-[0.3em] mb-1">Visual Log</span>
                 <span className="text-2xl font-black text-white hover:text-white uppercase tracking-tighter italic">TikTok</span>
+              </div>
+            </a>
+
+            <a 
+              href="https://www.youtube.com/@altart_archive" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-6 p-8 liquid-glass rounded-2xl border border-white/5 hover:border-premium-gold/50 group transition-all"
+            >
+              <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-premium-gold/10 group-hover:scale-110 transition-all">
+                <Youtube className="w-8 h-8 text-white group-hover:text-premium-gold" />
+              </div>
+              <div>
+                <span className="text-[10px] text-zinc-300 font-bold uppercase block tracking-[0.3em] mb-1">Broadcasts</span>
+                <span className="text-2xl font-black text-white hover:text-white uppercase tracking-tighter italic">YouTube</span>
               </div>
             </a>
 
