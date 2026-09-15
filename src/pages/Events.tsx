@@ -16,24 +16,25 @@ interface Event {
 const events: Event[] = [
   {
     id: 1,
-    title: "*complete* Finland Card Expo Ratina",
-    date: "April 11th, 2026",
+    title: "*complete* FINLAND CARD EXPO MEGA Tampereen Messukeskus Lauantai",
+    date: "June 27th, 2026",
     location: "Tampere, Finland",
-    description: "Vedning at Finland Card Expo in Ratina shopping center from 10:00-17:00.",
+    description: "The legendary Tampere Exhibition and Sports Centre. The 3,600 square meter D-hall was filled with trading card excitement!",
     icon: <Trophy className="w-5 h-5 text-pokemon-yellow" />,
     type: 'Convention',
-    status: 'Completed Event'
+    status: 'Completed Event',
+    link: 'https://www.finlandcardexpo.fi/tampereen-messukeskus'
   },
   {
     id: 2,
-    title: "FINLAND CARD EXPO MEGA Tampereen Messukeskus Lauantai",
-    date: "June 27th, 2026",
-    location: "Tampere, Finland",
-    description: "The legendary Tampere Exhibition and Sports Centre. The 3,600 square meter D-hall is filled with the trading card craze at the end of June!",
+    title: "FINLAND CARD EXPO MEGA CABLE FACTORY",
+    date: "Sat-Sun 19-20.9.2026",
+    location: "Helsinki, Finland",
+    description: "Finland Card Expo Mega arrives at Kaapelitehdas (Cable Factory) in Helsinki! An entire weekend filled with Pokémon TCG, rare collectibles, and community trading.",
     icon: <Users className="w-5 h-5 text-pokemon-red" />,
     type: 'Convention',
     status: 'Confirmed Deployment',
-    link: 'https://www.finlandcardexpo.fi/tampereen-messukeskus'
+    link: 'https://www.finlandcardexpo.fi/kaapelitehdas-hki'
   },
   {
     id: 3,
