@@ -1,5 +1,6 @@
-import { motion } from 'motion/react';
-import { ExternalLink, MessageCircle, Calendar as CalendarIcon, ArrowRight, Star, ShoppingBag, ShieldCheck } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ExternalLink, MessageCircle, Calendar as CalendarIcon, ArrowRight, Star, ShoppingBag, ShieldCheck, ZoomIn, X } from 'lucide-react';
 
 import { UnownProvider, UnownText } from '../components/UnownProvider';
 
@@ -18,6 +19,7 @@ const Section = ({ children, className }: { children: React.ReactNode; className
 );
 
 export default function Home({ onNavigate, onUnown, isUnown = false }: { onNavigate: (page: string) => void, onUnown?: () => void, isUnown?: boolean }) {
+  const [activePhoto, setActivePhoto] = useState<{ src: string; title: string; subtitle: string } | null>(null);
   return (
     <UnownProvider isUnown={isUnown}>
     <div className="relative">
@@ -113,6 +115,80 @@ export default function Home({ onNavigate, onUnown, isUnown = false }: { onNavig
         </div>
       </Section>
 
+      {/* Field Dispatch / Archive In Action Gallery */}
+      <Section>
+        <div className="flex items-center gap-3 mb-8">
+          <div className="h-[2px] w-12 bg-premium-gold" />
+          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-premium-gold">
+            The Archive In Action
+          </h2>
+        </div>
+
+        <p className="text-xl md:text-2xl text-zinc-100 leading-tight mb-10 font-bold">
+          Bringing slabs, singles, and grails to collectors all across Europe through card shows, events, and online sales.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          <div 
+            onClick={() => setActivePhoto({
+              src: '/IMG-20260630-WA0002.jpg',
+              title: 'Finland Card Expo Mega Setup',
+              subtitle: 'Convention table & card showcase at Tampereen Messukeskus'
+            })}
+            className="group relative rounded-2xl overflow-hidden border border-white/10 bg-black/40 shadow-2xl cursor-pointer"
+          >
+            <div className="aspect-[4/3] w-full overflow-hidden relative">
+              <img 
+                src="/IMG-20260630-WA0002.jpg" 
+                alt="Alt Art Archive live convention setup" 
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors" />
+              <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all">
+                <ZoomIn className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="p-5 bg-gradient-to-t from-black/95 via-black/80 to-black/40 border-t border-white/5">
+              <div>
+                <span className="text-[10px] text-premium-gold font-black uppercase tracking-[0.3em] block mb-1">Live Deployment</span>
+                <h4 className="text-base font-black text-white uppercase tracking-wider">Convention Showcase Table</h4>
+                <p className="text-xs text-zinc-300 mt-1">Tampereen Messukeskus • Card Expo Mega</p>
+              </div>
+            </div>
+          </div>
+
+          <div 
+            onClick={() => setActivePhoto({
+              src: '/IMG-20260630-WA0003.jpg',
+              title: 'On-Site Vault & Showcase',
+              subtitle: 'Ultra-modern SIRs and collector binder displays'
+            })}
+            className="group relative rounded-2xl overflow-hidden border border-white/10 bg-black/40 shadow-2xl cursor-pointer"
+          >
+            <div className="aspect-[4/3] w-full overflow-hidden relative">
+              <img 
+                src="/IMG-20260630-WA0003.jpg" 
+                alt="Alt Art Archive showcase display" 
+                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors" />
+              <div className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:scale-110 transition-all">
+                <ZoomIn className="w-4 h-4" />
+              </div>
+            </div>
+            <div className="p-5 bg-gradient-to-t from-black/95 via-black/80 to-black/40 border-t border-white/5">
+              <div>
+                <span className="text-[10px] text-premium-gold font-black uppercase tracking-[0.3em] block mb-1">The team</span>
+                <h4 className="text-base font-black text-white uppercase tracking-wider">ALTARTARCHIVE @ FCE</h4>
+                <p className="text-xs text-zinc-300 mt-1">Your favourite vendor</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {/* Start Collecting Section */}
       <Section>
         <span className="text-premium-gold font-black uppercase text-xs tracking-[0.5em] block mb-4">Phase Three</span>
@@ -172,6 +248,54 @@ export default function Home({ onNavigate, onUnown, isUnown = false }: { onNavig
           </p>
         </div>
       </footer>
+
+      {/* Interactive Lightbox Modal */}
+      <AnimatePresence>
+        {activePhoto && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActivePhoto(null)}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl w-full liquid-glass rounded-2xl overflow-hidden border border-white/20 cursor-default shadow-2xl"
+            >
+              <button
+                onClick={() => setActivePhoto(null)}
+                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center border border-white/20 transition-all"
+                aria-label="Close photo"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div className="max-h-[70vh] w-full flex items-center justify-center bg-black/60 overflow-hidden">
+                <img
+                  src={activePhoto.src}
+                  alt={activePhoto.title}
+                  className="max-h-[70vh] w-auto max-w-full object-contain"
+                />
+              </div>
+              <div className="p-6 bg-black/90 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-xl font-black text-white uppercase tracking-tight">{activePhoto.title}</h3>
+                  <p className="text-xs text-zinc-300 font-bold mt-1 uppercase tracking-widest">{activePhoto.subtitle}</p>
+                </div>
+                <button
+                  onClick={() => setActivePhoto(null)}
+                  className="px-5 py-2.5 bg-white text-obsidian text-xs font-black uppercase tracking-widest hover:bg-premium-gold transition-colors rounded-sm self-start sm:self-auto"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
     </UnownProvider>
   );

@@ -1,5 +1,6 @@
-import { motion } from 'motion/react';
-import { Calendar as CalendarIcon, MapPin, ArrowLeft, Trophy, Users, MoveRight } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Calendar as CalendarIcon, MapPin, ArrowLeft, Trophy, Users, MoveRight, Camera, ZoomIn, X } from 'lucide-react';
 
 interface Event {
   id: number;
@@ -11,6 +12,7 @@ interface Event {
   type: 'Tournament' | 'Trade Night' | 'Convention';
   status: string;
   link?: string;
+  photos?: { src: string; caption: string }[];
 }
 
 const events: Event[] = [
@@ -23,7 +25,11 @@ const events: Event[] = [
     icon: <Trophy className="w-5 h-5 text-pokemon-yellow" />,
     type: 'Convention',
     status: 'Completed Event',
-    link: 'https://www.finlandcardexpo.fi/tampereen-messukeskus'
+    link: 'https://www.finlandcardexpo.fi/tampereen-messukeskus',
+    photos: [
+      { src: '/IMG-20260630-WA0002.jpg', caption: 'Live Booth & Showcase Table • Tampere Mega' },
+      { src: '/IMG-20260630-WA0003.jpg', caption: 'The Vault: Graded Slabs & SIR Binders • Tampere Mega' }
+    ]
   },
   {
     id: 2,
@@ -49,6 +55,8 @@ const events: Event[] = [
 ];
 
 export default function Events({ onBack }: { onBack: () => void }) {
+  const [activePhoto, setActivePhoto] = useState<{ src: string; caption: string } | null>(null);
+
   return (
     <div className="min-h-screen pt-32 pb-24 px-6 relative z-10">
       <div className="max-w-4xl mx-auto">
@@ -94,6 +102,35 @@ export default function Events({ onBack }: { onBack: () => void }) {
                     <MapPin className="w-4 h-4 text-premium-crimson shrink-0" />
                     {event.location}
                   </div>
+
+                  {event.photos && event.photos.length > 0 && (
+                    <div className="mt-6 pt-5 border-t border-white/10">
+                      <div className="flex items-center gap-2 text-[10px] text-zinc-300 font-bold uppercase tracking-[0.25em] mb-3">
+                        <Camera className="w-3.5 h-3.5 text-premium-gold" />
+                        <span>On-Site Event Gallery</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-3 max-w-sm">
+                        {event.photos.map((photo, pIdx) => (
+                          <div
+                            key={pIdx}
+                            onClick={() => setActivePhoto(photo)}
+                            className="group/photo relative aspect-[4/3] rounded-lg overflow-hidden border border-white/10 bg-black/50 cursor-pointer shadow-md"
+                          >
+                            <img
+                              src={photo.src}
+                              alt={photo.caption}
+                              className="w-full h-full object-cover group-hover/photo:scale-105 transition-transform duration-500"
+                              loading="lazy"
+                            />
+                            <div className="absolute inset-0 bg-black/20 group-hover/photo:bg-black/0 transition-colors" />
+                            <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/70 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white opacity-0 group-hover/photo:opacity-100 transition-all">
+                              <ZoomIn className="w-3 h-3" />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
                 
                 <div className="flex flex-col gap-4 md:gap-6 bg-white/[0.03] p-6 md:p-8 border border-white/5 rounded-xl md:rounded-none">
@@ -128,6 +165,54 @@ export default function Events({ onBack }: { onBack: () => void }) {
           <p className="text-zinc-300 mt-2 max-w-xs">Connecting collectors, one show at a time. Follow my TikTok for live venue updates.</p>
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {activePhoto && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActivePhoto(null)}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 md:p-8 cursor-zoom-out"
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative max-w-4xl w-full liquid-glass rounded-2xl overflow-hidden border border-white/20 cursor-default shadow-2xl"
+            >
+              <button
+                onClick={() => setActivePhoto(null)}
+                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/70 hover:bg-black text-white flex items-center justify-center border border-white/20 transition-all"
+                aria-label="Close photo"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div className="max-h-[70vh] w-full flex items-center justify-center bg-black/60 overflow-hidden">
+                <img
+                  src={activePhoto.src}
+                  alt={activePhoto.caption}
+                  className="max-h-[70vh] w-auto max-w-full object-contain"
+                />
+              </div>
+              <div className="p-6 bg-black/90 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-lg font-black text-white uppercase tracking-tight">{activePhoto.caption}</h3>
+                  <p className="text-xs text-zinc-300 font-bold mt-1 uppercase tracking-widest">Tampere Exhibition & Sports Centre • Card Expo Mega</p>
+                </div>
+                <button
+                  onClick={() => setActivePhoto(null)}
+                  className="px-5 py-2.5 bg-white text-obsidian text-xs font-black uppercase tracking-widest hover:bg-premium-gold transition-colors rounded-sm self-start sm:self-auto"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
